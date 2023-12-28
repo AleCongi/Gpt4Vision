@@ -1,0 +1,58 @@
+[
+    {
+        "name": "MacBook Pro",
+        "description": "Un potente laptop Apple con un display Retina, un processore veloce e una batteria a lunga durata",
+        "photo_url": "https://i.pcmag.com/image/183616/macbook-pro-2021.jpg",
+        "availability": "In stock",
+        "price": 1299.99,
+        "units_left": 10
+    },
+    {
+        "name": "iPhone 14 Pro",
+        "description": "Lo smartphone Apple più avanzato con un display OLED, una fotocamera eccezionale e un processore potentissimo",
+        "photo_url": "https://icdn.digitaltrends.com/image/iphone-14-pro-max-2022.jpg",
+        "availability": "Limited stock",
+        "price": 999.99,
+        "units_left": 5
+    },
+    {
+        "name": "iPad Pro",
+        "description": "Un tablet Apple versatile con un display Liquid Retina XDR, un chip M1 Pro o M1 Max e una batteria che dura tutto il giorno",
+        "photo_url": "https://i.macworld.com/image/171513/ipad-pro-2021-2022.jpg",
+        "availability": "Out of stock",
+        "price": 899.99,
+        "units_left": 0
+    },
+    {
+        "name": "Samsung Galaxy S23 Ultra",
+        "description": "Il nuovo smartphone Samsung con un display AMOLED, una fotocamera di punta e un potente processore Snapdragon 8 Gen 2",
+        "photo_url": "https://www.gsmarena.com/uploads/2023/10/samsung-galaxy-s23-ultra-5_640w.jpg",
+        "availability": "In preorder",
+        "price": 1099.99,
+        "units_left": 100
+    },
+    {
+        "name": "Google Pixel 7 Pro",
+        "description": "Il nuovo smartphone Google con un display OLED, una fotocamera di alta qualità e un processore Tensor 2",
+        "photo_url": "https://www.google.com/intl/it_IT/chrome/devices/pixel/7-pro/",
+        "availability": "Available soon",
+        "price": 899.99,
+        "units_left": 20
+    },
+    {
+        "name": "Asus ROG Strix Scar 17",
+        "description": "Un potente laptop gaming ASUS con un display da 17,3, un processore Intel Core i9-12900H e una scheda grafica NVIDIA GeForce RTX 3080 Ti",
+        "photo_url": "https://www.asus.com/it/content/Laptops/ROG/ROG-Strix-Scar-17-2023/_features/hero.png",
+        "availability": "Available soon",
+        "price": 3599.99,
+        "units_left": 50
+    },
+    {
+        "name": "Logitech G502 Lightspeed Wireless Mouse",
+        "description": "Un mouse da gioco wireless leggero e preciso con un            sensore Hero 25K e 11 pulsanti programmabili",
+        "photo_url": "https://www.logitechg.com/assets/68762/0/g502-hero-              wireless-gaming-mouse-2-small-20230222.png",
+        "availability": "Available soon",
+        "price": 149.99,
+        "units_left": 100
+    }
+]
