@@ -149,9 +149,9 @@ async function waitForEvent(page, event) {
         ignoreHTTPSErrors: true 
     } );
     */
-
+    //!!!!!!!!!!!!!!!!!!!!! QUI IL TUO BROWSER!!!!!!!!!!!!!!!!!!!!!!!!!!!
     const browser = await puppeteer.connect({
-        browserWSEndpoint: 'ws://127.0.0.1:9222/devtools/browser/42b6d1f7-7b0f-4796-bd18-42b04b3dd543', // Replace with your obtained WebSocket endpoint
+        browserWSEndpoint: 'ws://127.0.0.1:9222/devtools/browser/90fd7713-2d8d-4658-933e-2e6c919581d3', // Replace with your obtained WebSocket endpoint
     });
    
     let page;
