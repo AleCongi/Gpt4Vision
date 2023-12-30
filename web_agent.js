@@ -9,6 +9,7 @@ puppeteer.use(StealthPlugin());
 
 const openai = new OpenAI();
 const timeout = 5000;
+
 async function downloadContent(url, destination) {
     const viewSource = await page.goto(url);
     fs.writeFileSync(destination, await viewSource.buffer());
@@ -151,7 +152,7 @@ async function waitForEvent(page, event) {
     */
     //!!!!!!!!!!!!!!!!!!!!! QUI IL TUO BROWSER!!!!!!!!!!!!!!!!!!!!!!!!!!!
     const browser = await puppeteer.connect({
-        browserWSEndpoint: 'ws://127.0.0.1:9222/devtools/browser/90fd7713-2d8d-4658-933e-2e6c919581d3', // Replace with your obtained WebSocket endpoint
+        browserWSEndpoint: 'ws://127.0.0.1:9222/devtools/browser/c61479fa-4525-4176-ac03-af0c106046de', // Replace with your obtained WebSocket endpoint
     });
    
     let page;
@@ -180,7 +181,8 @@ async function waitForEvent(page, event) {
             {"url": "url goes here"}
 
             You can click links on the website by referencing the text inside of the link/button, by answering in the following JSON format:
-            {"click": "Text in link"}
+            {"click": "Text in button/link goes here"}
+            you will be given the screenshot of the page. CHoose wisely the button you want to click. We need every information that can profile accurately the profile opf the given domain .
 
             You can  download a file, respond with the following JSON format:
             {"download": "URL goes here", "destination": "destination/path/filename.ext"}
@@ -205,7 +207,9 @@ async function waitForEvent(page, event) {
    
 
     while( true ) {
+
         const linksData = [];
+
         if( url ) {
             console.log("Crawling " + url);
             await page.goto( url, {
@@ -224,8 +228,6 @@ async function waitForEvent(page, event) {
                 linksData.push({ title: linkTitle, href: linkHref });
             }
 
-          
-            
             await Promise.race( [
                 waitForEvent(page, 'load'),
                 sleep(timeout)
@@ -244,7 +246,7 @@ async function waitForEvent(page, event) {
 
         if( screenshot_taken ) {
             const base64_image = await image_to_base64("screenshot.jpg");
-
+            
             messages.push({
                 "role": "user",
                 "content": [
@@ -254,7 +256,7 @@ async function waitForEvent(page, event) {
                     },
                     {
                         "type": "text",
-                        "text": "Here's the screenshot of the website you are on right now. You can click on links with {\"click\": \"Link text\"} or you can crawl to another URL if this one is incorrect. If you find the answer to the user's question, you can respond normally. Take a lost of real link of this website to choose from: " + JSON.stringify(linksData.slice(0, 10)),
+                        "text": "Here's the screenshot of the website you are on right now. You can click on links with {\"click\": \"Link text\"} or you can crawl to another URL if this one is incorrect. If you find the answer to the user's question, you can respond normally. Take a lost of real link of this website to choose from: ",
                     }
                 ]
             });
@@ -271,7 +273,7 @@ async function waitForEvent(page, event) {
         });
         
         const message = response.choices[0].message;
-        console.log(messages);
+        //console.log(messages);
         const message_text = message.content;
 
         const downloadCommandIndex = message_text.indexOf('{"download": "');
@@ -294,15 +296,21 @@ async function waitForEvent(page, event) {
             let parts = message_text.split('{"click": "');
             parts = parts[1].split('"}');
             const link_text = parts[0].replace(/[^a-zA-Z0-9 ]/g, '');
-        
-            console.log("Clicking on " + link_text)
-        
-            try {
+            console.log("Clicking on " + link_text);
+            try{
+                let go_to = linksData.find(linksData => linksData.title.toLowerCase() === link_text.toLowerCase());
+                //let go_to = linksData.find(linksData => linksData.title.toLowerCase() === link_text.toLowerCase());
+                console.log("go_to: " + go_to.href);
+            
+            //log the href of the object go_to
+            
+            /*try {
                 const elements = await page.$$('[gpt-link-text]');
         
                 let partial;
                 let exact;
-        
+                
+                
                 for (const element of elements) {
                     const attributeValue = await element.evaluate(el => el.getAttribute('gpt-link-text'));
         
@@ -339,8 +347,9 @@ async function waitForEvent(page, event) {
                     // 
                     screenshot_taken = true;
                 } else {
-                    try{
-                       url = linksData.find(linksData => linksData.title.toLowerCase() === titleToSelect.toLowerCase());
+                    try{*/
+                        console.log("Trying to find link by text: " + go_to.href);
+                        url = go_to.href;/*
                     } catch {
                         throw new Error("Can't find link");
                     }
@@ -349,7 +358,8 @@ async function waitForEvent(page, event) {
                 }
             } catch (error) {
                 try{
-                    url = linksData.find(linksData => linksData.title.toLowerCase() === titleToSelect.toLowerCase());
+                    console.log("Trying to find link by text");
+                        url = go_to;
                  } catch {
                     console.log("ERROR: Clicking failed", error);
         
@@ -360,13 +370,15 @@ async function waitForEvent(page, event) {
                  }
                 
             }
-        
+            */} catch {
+                throw new Error("Can't find link: " + link_text);
+            }
             continue;
         } else if (message_text.indexOf('{"url": "') !== -1) {
             let parts = message_text.split('{"url": "');
             parts = parts[1].split('"}');
             url = parts[0];
-        
+            
             continue;
         }
 
